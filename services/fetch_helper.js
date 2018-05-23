@@ -3,7 +3,6 @@ import router from '../router.js';
 
 export const LOGGED_OUT_ERROR = new Error('You are no longer authorized to make reqeusts!');
 
-const DEFAULT_COMPANY_KEY = 'c6720a75-7d53-49fa-97dd-cc3bfce6af62';
 const SERVER_URL = 'https://dev.unieconomy.no';
 
 export function getUser() {
@@ -19,6 +18,15 @@ export function getUser() {
 export function getCustomers() {
     return fetch(SERVER_URL + '/api/biz/customers?expand=Info,Info.DefaultPhone,Info.DefaultEmail,Info.InvoiceAddress', {
         method: 'GET',
+        headers: standardHeaders(),
+    })
+        .then(handleFetchError)
+        .then(res => res.json())
+        .catch(chechIfLoggedOut);
+}
+
+export function getCompanies() {
+    return fetch(SERVER_URL + '/api/init/companies', {
         headers: standardHeaders(),
     })
         .then(handleFetchError)
@@ -59,19 +67,14 @@ export function deleteCustomer(customer) {
 
 export function login(username, password) {
     return fetch(SERVER_URL + '/api/init/sign-in', {
-                method: 'POST',
-                body: JSON.stringify({username: username, password: password}),
-                headers: {
-                    'content-type': 'application/json',
-                },
-            })
-                .then(handleFetchError)
-                .then(res => res.json())
-                .then(auth => store.commit({
-                    type: 'setToken',
-                    token: auth.access_token,
-                    companyKey: DEFAULT_COMPANY_KEY,
-                }));
+        method: 'POST',
+        body: JSON.stringify({username: username, password: password}),
+        headers: {
+            'content-type': 'application/json',
+        },
+    })
+        .then(handleFetchError)
+        .then(res => res.json());
 }
 
 export function logout() {
@@ -104,6 +107,7 @@ function handleFetchError(response) {
 function chechIfLoggedOut(err) {
     if (err === LOGGED_OUT_ERROR) {
         router.push('login');
+        console.log('Redirected to login page because got 401 from server.')
     }
     throw err;
 }

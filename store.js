@@ -11,6 +11,8 @@ const store = new Vuex.Store({
     mutations: {
         setToken(state, payload) {
             state.token = payload.token;
+        },
+        setCompanyKey(state, payload) {
             state.companyKey = payload.companyKey;
         },
         setUser(state, payload) {

@@ -11,6 +11,7 @@ new Vue({
             <header></header>
             <nav>
                 <router-link to="/login">Login/Logout</router-link>
+                <router-link to="/select-company">Select company</router-link>
                 <router-link to="/">Customers</router-link>
                 <router-link to="/create-customer">Create customer</router-link>
                 <user class="user-component"></user>

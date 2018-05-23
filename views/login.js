@@ -1,4 +1,4 @@
-import {logout, login, getUser, LOGGED_OUT_ERROR} from '../services/fetch_helper.js';
+import {logout, login, LOGGED_OUT_ERROR} from '../services/fetch_helper.js';
 
 export default {
 	template: `
@@ -32,12 +32,10 @@ export default {
     			return;
     		}
     		login(this.username, this.password)
-                .then(() => {
-                    this.$router.push({path: '/'});
-                    getUser()
-                        .then(user => this.$store.commit('setUser', {user}))
-                        .catch(err => console.log('Got error when getting user:', err));
-                })
+                .then(auth => this.$store.commit('setToken', {
+                    token: auth.access_token,
+                }))
+                .then(() => this.$router.push({path: '/select-company'}))
                 .catch(err => {
                     if (err === LOGGED_OUT_ERROR) {
                         this.errors.push('Wrong Username or Password!');

@@ -31,7 +31,7 @@ export default {
             }
         	saveCustomer(this.customer)
                 .then(customer => this.customer = customer)
-                .then(customer => this.$router.push(`/view-customer/${customer.ID}`))
+                .then(customer => this.$router.push(`/customers/${customer.ID}`))
                 .catch(err => this.errors.push(err.message));
         }
     }

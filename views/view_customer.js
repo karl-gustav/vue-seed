@@ -1,4 +1,5 @@
 import {getCustomer, saveCustomer, deleteCustomer} from '../services/fetch_helper.js';
+import router from '../router.js';
 
 export default {
     props: ['id'],
@@ -54,7 +55,7 @@ export default {
         },
         deleteCustomer() {
             deleteCustomer(this.customer)
-                .then(() => this.$router.push('/'))
+                .then(() => router.push('/'))
                 .catch(err => this.errors.push(err.message));
         }
     }

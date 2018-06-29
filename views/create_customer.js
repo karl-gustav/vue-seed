@@ -1,4 +1,6 @@
 import {saveCustomer} from '../services/fetch_helper.js';
+import router from '../router.js';
+
 
 export default {
 	template: `
@@ -31,7 +33,7 @@ export default {
             }
         	saveCustomer(this.customer)
                 .then(customer => this.customer = customer)
-                .then(customer => this.$router.push(`/customers/${customer.ID}`))
+                .then(customer => router.push(`/customers/${customer.ID}`))
                 .catch(err => this.errors.push(err.message));
         }
     }

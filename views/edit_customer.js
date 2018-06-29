@@ -1,4 +1,6 @@
 import {getCustomer, saveCustomer} from '../services/fetch_helper.js';
+import router from '../router.js';
+
 
 export default {
     props: ['id'],
@@ -56,7 +58,7 @@ export default {
             saveCustomer(this.customer)
                 .then(customer => this.customer = customer)
                 .catch(err => this.errors.push(err.message));
-            this.$router.push(`/customers/${this.$route.params.id}`);
+            router.push(`/customers/${this.$route.params.id}`);
         }
     }
 }

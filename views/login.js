@@ -1,4 +1,7 @@
 import {logout, login, LOGGED_OUT_ERROR} from '../services/fetch_helper.js';
+import router from '../router.js';
+import store from '../store.js';
+
 
 export default {
 	template: `
@@ -21,7 +24,7 @@ export default {
     },
     methods: {
         isLoggedIn() {
-            return !!this.$store.state.token;
+            return !!store.state.token;
         },
         logout() {
             logout();
@@ -32,10 +35,10 @@ export default {
     			return;
     		}
     		login(this.username, this.password)
-                .then(auth => this.$store.commit('setToken', {
+                .then(auth => store.commit('setToken', {
                     token: auth.access_token,
                 }))
-                .then(() => this.$router.push({path: '/select-company'}))
+                .then(() => router.push({path: '/select-company'}))
                 .catch(err => {
                     if (err === LOGGED_OUT_ERROR) {
                         this.errors.push('Wrong Username or Password!');

@@ -1,4 +1,6 @@
 import {getUser, logout} from '../services/fetch_helper.js';
+import router from '../router.js';
+import store from '../store.js';
 
 export default {
     template: `<section v-if="user">
@@ -7,13 +9,13 @@ export default {
     </section>`,
     computed: {
         user() {
-            return this.$store.state.user;
+            return store.state.user;
         },
     },
     methods: {
         logout() {
             logout();
-            this.$router.push('/login')
+            router.push('/login')
         },
     }
 }

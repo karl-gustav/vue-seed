@@ -1,4 +1,7 @@
 import {getCompanies, getUser} from '../services/fetch_helper.js';
+import router from '../router.js';
+import store from '../store.js';
+
 
 export default {
 	template: `
@@ -28,11 +31,11 @@ export default {
                 .catch(err => this.errors.push(err));
         },
         selectCompany(company) {
-            this.$store.commit('setCompanyKey', {companyKey: company.Key});
+            store.commit('setCompanyKey', {companyKey: company.Key});
             getUser()
                 .then(user => {
-                    this.$store.commit('setUser', {user});
-                    this.$router.push('/');
+                    store.commit('setUser', {user});
+                    router.push('/');
                 })
                 .catch(err => console.log('Got error when getting user:', err));
             ;
